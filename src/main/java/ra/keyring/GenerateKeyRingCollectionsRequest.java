@@ -1,8 +1,9 @@
 package ra.keyring;
 
-import ra.common.PublicKey;
+import ra.common.identity.PublicKey;
 
 public class GenerateKeyRingCollectionsRequest extends KeyRingsRequest {
+    public static int REQUEST_REQUIRED = 1;
     public static int KEY_RING_USERNAME_REQUIRED = 2;
     public static int KEY_RING_PASSPHRASE_REQUIRED = 3;
     public static int KEY_RING_USERNAME_TAKEN = 4;

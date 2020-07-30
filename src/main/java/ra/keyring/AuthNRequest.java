@@ -1,6 +1,6 @@
 package ra.keyring;
 
-import ra.common.PublicKey;
+import ra.common.identity.PublicKey;
 
 /**
  * TODO: Add Description

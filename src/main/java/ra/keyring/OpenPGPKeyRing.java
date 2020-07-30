@@ -12,8 +12,8 @@ import org.bouncycastle.openpgp.operator.PGPDigestCalculator;
 import org.bouncycastle.openpgp.operator.PublicKeyDataDecryptorFactory;
 import org.bouncycastle.openpgp.operator.bc.*;
 import org.bouncycastle.openpgp.operator.jcajce.*;
-import ra.common.EncryptionAlgorithm;
-import ra.common.PublicKey;
+import ra.common.crypto.EncryptionAlgorithm;
+import ra.common.identity.PublicKey;
 import ra.util.Base58;
 
 import java.io.*;

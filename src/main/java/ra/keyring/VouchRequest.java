@@ -1,7 +1,7 @@
 package ra.keyring;
 
-import ra.common.DID;
-import ra.common.ServiceMessage;
+import ra.common.identity.DID;
+import ra.common.service.ServiceMessage;
 
 import java.util.Map;
 

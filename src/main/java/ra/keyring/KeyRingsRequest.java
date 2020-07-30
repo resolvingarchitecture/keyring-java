@@ -1,6 +1,6 @@
 package ra.keyring;
 
-import ra.common.ServiceMessage;
+import ra.common.service.ServiceMessage;
 
 /**
  * TODO: Add Description
