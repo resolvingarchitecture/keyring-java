@@ -139,6 +139,7 @@ public class KeyRingService extends BaseService {
                 if(r.location == null || r.location.isEmpty()) {
                     // Set locally
                     f = getServiceDirectory();
+                    r.location = f.getAbsolutePath();
                 } else {
                     f = new File(r.location);
                 }
