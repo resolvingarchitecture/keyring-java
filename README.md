@@ -1,10 +1,9 @@
 # Key Ring Service
-Manages keys for the bus and its user.
-Multiple users are not supported for identities (this is client-to-client software not server based).
+Manages keys as a service.
+Supports common open standards including OpenPGP.
 Creates, persists, and deletes identity keys (OpenPGP).
 Encrypts (AES) them for persisting to drives - TODO.
-Provides identity keys for DID Service.
-Storage currently local hard drive but slated to support external usb drives.
+Storage currently local hard drive but needs to support external usb drives.
 
 ## Policies
 
