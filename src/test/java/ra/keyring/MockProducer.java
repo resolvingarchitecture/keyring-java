@@ -12,11 +12,13 @@ public class MockProducer implements MessageProducer {
 
     @Override
     public boolean send(Envelope envelope) {
-        return false;
+        LOG.info("Env sent...");
+        return true;
     }
 
     @Override
     public boolean send(Envelope envelope, Client client) {
-        return false;
+        LOG.info("Env sent, client waiting...");
+        return true;
     }
 }

@@ -4,9 +4,15 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import ra.common.DLC;
+import ra.common.Envelope;
 
+import java.io.File;
+import java.util.Date;
 import java.util.Properties;
 import java.util.logging.Logger;
+
+import static ra.keyring.KeyRingService.PASSWORD_HASH_STRENGTH_64;
 
 public class KeyRingServiceTest {
 
@@ -35,5 +41,34 @@ public class KeyRingServiceTest {
     @Test
     public void verifyInitializedTest() {
         Assert.assertTrue(serviceRunning);
+    }
+
+    @Test
+    public void generateKeysTest() {
+        GenerateKeyRingCollectionsRequest req = new GenerateKeyRingCollectionsRequest();
+        req.keyRingImplementation = "ra.keyring.OpenPGPKeyRing";
+        req.keyRingUsername = "Anon";
+        req.keyRingPassphrase = "1234";
+        req.hashStrength = PASSWORD_HASH_STRENGTH_64;
+        Envelope e = Envelope.documentFactory();
+        DLC.addData(GenerateKeyRingCollectionsRequest.class, req, e);
+        DLC.addRoute(KeyRingService.class.getName(), KeyRingService.OPERATION_GENERATE_KEY_RINGS_COLLECTIONS, e);
+        // Ratchet route
+        e.setRoute(e.getDynamicRoutingSlip().nextRoute());
+        File pkf = new File(service.getServiceDirectory(), req.keyRingUsername+".pkr");
+        if(pkf.exists()) {
+            Assert.assertTrue(pkf.delete());
+        }
+        File skf = new File(service.getServiceDirectory(), req.keyRingUsername+".skr");
+        if(skf.exists()) {
+            Assert.assertTrue(skf.delete());
+        }
+        long start = new Date().getTime();
+        service.handleDocument(e);
+        long end = new Date().getTime();
+        LOG.info("Key generation took: "+(end-start)+" ms.");
+        Assert.assertTrue(pkf.exists());
+        Assert.assertTrue(skf.exists());
+        Assert.assertTrue((end-start) < 30000); // < 30 seconds
     }
 }

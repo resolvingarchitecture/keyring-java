@@ -90,6 +90,7 @@ public class KeyRingService extends BaseService {
                 if(r.location == null || r.location.isEmpty()) {
                     // default
                     f = getServiceDirectory();
+                    r.location = f.getAbsolutePath();
                 } else {
                     f = new File(r.location);
                 }
@@ -541,12 +542,12 @@ public class KeyRingService extends BaseService {
     private void loadKeyRingImplementations(){
         keyRings.clear();
         KeyRing keyRing;
-        if(properties.getProperty("1m5.keyring.providers") == null) {
+        if(properties.getProperty("ra.keyring.KeyRing") == null) {
             keyRing = new OpenPGPKeyRing(); // Default
             keyRing.init(properties);
             keyRings.put(OpenPGPKeyRing.class.getName(), keyRing);
         } else {
-            String[] keyRingStrings = properties.getProperty("1m5.keyring.providers").split(",");
+            String[] keyRingStrings = properties.getProperty("ra.keyring.KeyRing").split(",");
             for (String keyRingString : keyRingStrings) {
                 try {
                     keyRing = (KeyRing) Class.forName(keyRingString).getConstructor().newInstance();
