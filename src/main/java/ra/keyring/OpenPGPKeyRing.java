@@ -22,6 +22,8 @@ import java.security.SecureRandom;
 import java.util.*;
 import java.util.logging.Logger;
 
+import static ra.keyring.KeyRingService.PASSWORD_HASH_STRENGTH_64;
+
 /**
  * TODO: Add Description
  */
@@ -81,7 +83,7 @@ public class OpenPGPKeyRing implements KeyRing {
         File pkr = new File(r.location + (r.location.endsWith("/") ? "" : "/") + r.keyRingUsername+".pkr");
 
         // Check to see if key rings collections already exist.
-        if(skr.exists()) {
+        if(keyRingCollectionExists(r.location, r.keyRingUsername)) {
             LOG.warning("KeyRing username taken: "+r.keyRingUsername);
             r.statusCode = GenerateKeyRingCollectionsRequest.KEY_RING_USERNAME_TAKEN;
             return;
@@ -144,6 +146,12 @@ public class OpenPGPKeyRing implements KeyRing {
         }
     }
 
+    private boolean keyRingCollectionExists(String location, String username) {
+        File skr = new File(location + (location.endsWith("/") ? "" : "/") + username+".skr");
+        File pkr = new File(location + (location.endsWith("/") ? "" : "/") + username+".pkr");
+        return skr.exists() && pkr.exists();
+    }
+
     /**
      * Create new key rings both secret and public for a new identity based on alias and aliasPassphrase.
      * @param keyRingUsername
@@ -154,7 +162,18 @@ public class OpenPGPKeyRing implements KeyRing {
      * @throws IOException
      * @throws PGPException
      */
-    public void createKeyRings(String location, String keyRingUsername, String keyRingPassphrase, String alias, String aliasPassphrase, int hashStrength) throws IOException, PGPException {
+    public void createKeyRings(String location, String keyRingUsername, String keyRingPassphrase, String alias, String aliasPassphrase, int hashStrength, String keyRingImpl) throws IOException, PGPException {
+
+        if(!keyRingCollectionExists(location, keyRingUsername)) {
+            GenerateKeyRingCollectionsRequest req = new GenerateKeyRingCollectionsRequest();
+            req.location = location;
+            req.keyRingImplementation = keyRingImpl;
+            req.keyRingUsername = keyRingUsername;
+            req.keyRingPassphrase = keyRingPassphrase;
+            req.hashStrength = PASSWORD_HASH_STRENGTH_64;
+            generateKeyRingCollections(req);
+        }
+
         PGPKeyRingGenerator krgen = generateKeyRingGenerator(alias, aliasPassphrase.toCharArray(), hashStrength);
 
         PGPSecretKeyRingCollection secretKeyRingCollection = getSecretKeyRingCollection(location, keyRingUsername, keyRingPassphrase);

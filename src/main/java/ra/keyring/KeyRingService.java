@@ -222,7 +222,6 @@ public class KeyRingService extends BaseService {
                 } catch (Exception ex) {
                     r.exception = ex;
                     LOG.warning(ex.getLocalizedMessage());
-                    ex.printStackTrace();
                 }
                 break;
             }
@@ -237,6 +236,7 @@ public class KeyRingService extends BaseService {
                 if(r.location == null || r.location.isEmpty()) {
                     // Set locally
                     f = getServiceDirectory();
+                    r.location = f.getAbsolutePath();
                 } else {
                     f = new File(r.location);
                 }
@@ -268,11 +268,10 @@ public class KeyRingService extends BaseService {
                     return;
                 }
                 try {
-                    keyRing.createKeyRings(r.location, r.keyRingUsername, r.keyRingPassphrase, r.alias, r.aliasPassphrase, r.hashStrength);
+                    keyRing.createKeyRings(r.location, r.keyRingUsername, r.keyRingPassphrase, r.alias, r.aliasPassphrase, r.hashStrength, r.keyRingImplementation);
                 } catch (Exception ex) {
                     r.exception = ex;
                     LOG.warning(ex.getLocalizedMessage());
-                    ex.printStackTrace();
                 }
                 break;
             }
@@ -311,7 +310,6 @@ public class KeyRingService extends BaseService {
                 } catch (Exception ex) {
                     r.exception = ex;
                     LOG.warning(ex.getLocalizedMessage());
-                    ex.printStackTrace();
                 }
                 break;
             }

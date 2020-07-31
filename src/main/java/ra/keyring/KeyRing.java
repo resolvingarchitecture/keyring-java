@@ -21,7 +21,7 @@ public interface KeyRing {
 
     PGPPublicKey getPublicKey(PGPPublicKeyRingCollection c, String keyAlias, boolean master) throws PGPException;
 
-    void createKeyRings(String location, String keyRingUsername, String keyRingPassphrase, String alias, String aliasPassphrase, int hashStrength) throws IOException, PGPException;
+    void createKeyRings(String location, String keyRingUsername, String keyRingPassphrase, String alias, String aliasPassphrase, int hashStrength, String keyRingImplementation) throws IOException, PGPException;
 
     void encrypt(EncryptRequest r) throws IOException, PGPException;
 

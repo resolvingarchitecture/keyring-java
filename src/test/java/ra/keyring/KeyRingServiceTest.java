@@ -43,17 +43,47 @@ public class KeyRingServiceTest {
         Assert.assertTrue(serviceRunning);
     }
 
+//    @Test
+//    public void generateKeyRingsCollectionTest() {
+//        GenerateKeyRingCollectionsRequest req = new GenerateKeyRingCollectionsRequest();
+//        req.keyRingImplementation = "ra.keyring.OpenPGPKeyRing";
+//        req.keyRingUsername = "Anon1";
+//        req.keyRingPassphrase = "1234";
+//        req.hashStrength = PASSWORD_HASH_STRENGTH_64;
+//        Envelope e = Envelope.documentFactory();
+//        DLC.addData(GenerateKeyRingCollectionsRequest.class, req, e);
+//        DLC.addRoute(KeyRingService.class.getName(), KeyRingService.OPERATION_GENERATE_KEY_RINGS_COLLECTIONS, e);
+//        // Ratchet route
+//        e.setRoute(e.getDynamicRoutingSlip().nextRoute());
+//        File pkf = new File(service.getServiceDirectory(), req.keyRingUsername+".pkr");
+//        if(pkf.exists()) {
+//            Assert.assertTrue(pkf.delete());
+//        }
+//        File skf = new File(service.getServiceDirectory(), req.keyRingUsername+".skr");
+//        if(skf.exists()) {
+//            Assert.assertTrue(skf.delete());
+//        }
+//        long start = new Date().getTime();
+//        service.handleDocument(e);
+//        long end = new Date().getTime();
+//        LOG.info("Key generation took: "+(end-start)+" ms.");
+//        Assert.assertTrue(pkf.exists());
+//        Assert.assertTrue(skf.exists());
+//        Assert.assertTrue((end-start) < 30000); // < 30 seconds
+//    }
+
     @Test
-    public void generateKeyRingsCollectionTest() {
-        GenerateKeyRingCollectionsRequest req = new GenerateKeyRingCollectionsRequest();
+    public void generateKeyRingsTest() {
+        GenerateKeyRingsRequest req = new GenerateKeyRingsRequest();
         req.keyRingImplementation = "ra.keyring.OpenPGPKeyRing";
-        req.keyRingUsername = "Anon1";
+        req.keyRingUsername = "Anon2";
         req.keyRingPassphrase = "1234";
-        req.hashStrength = PASSWORD_HASH_STRENGTH_64;
+        req.alias = "Anon2-Sharon";
+        req.aliasPassphrase = "5678";
         Envelope e = Envelope.documentFactory();
-        DLC.addData(GenerateKeyRingCollectionsRequest.class, req, e);
-        DLC.addRoute(KeyRingService.class.getName(), KeyRingService.OPERATION_GENERATE_KEY_RINGS_COLLECTIONS, e);
-        // Ratchet route
+        DLC.addData(GenerateKeyRingsRequest.class, req, e);
+        DLC.addRoute(KeyRingService.class.getName(), KeyRingService.OPERATION_GENERATE_KEY_RINGS, e);
+        // Ratchet Route
         e.setRoute(e.getDynamicRoutingSlip().nextRoute());
         File pkf = new File(service.getServiceDirectory(), req.keyRingUsername+".pkr");
         if(pkf.exists()) {
