@@ -44,10 +44,10 @@ public class KeyRingServiceTest {
     }
 
     @Test
-    public void generateKeysTest() {
+    public void generateKeyRingsCollectionTest() {
         GenerateKeyRingCollectionsRequest req = new GenerateKeyRingCollectionsRequest();
         req.keyRingImplementation = "ra.keyring.OpenPGPKeyRing";
-        req.keyRingUsername = "Anon";
+        req.keyRingUsername = "Anon1";
         req.keyRingPassphrase = "1234";
         req.hashStrength = PASSWORD_HASH_STRENGTH_64;
         Envelope e = Envelope.documentFactory();
