@@ -25,7 +25,7 @@ public class KeyRingServiceTest {
 
     private static String keyRingUsername = "Anon";
     private static String keyRingPassphrase = "1234";
-    private static String alias = "Sharon";
+    private static String alias = "Anon";
     private static String aliasPassphrase = "5678";
     private static String keyRingImplementation = "ra.keyring.OpenPGPKeyRing";
     private static String content = "Key Ring Service Test";
@@ -162,7 +162,9 @@ public class KeyRingServiceTest {
         service.handleDocument(e);
         long end = new Date().getTime();
         LOG.info("Encryption took: "+(end-start)+" ms.");
-        assertNotEquals(new String(encReq.content.getBody()), content);
+        String encContent = new String(encReq.content.getBody());
+        LOG.info("Content: "+content+"; Encrypted: \n"+encContent);
+        assertNotEquals(encContent, content);
         assertTrue((end-start) < 30000); // < 30 seconds
 
         DecryptRequest decReq = new DecryptRequest();
@@ -172,8 +174,8 @@ public class KeyRingServiceTest {
         decReq.location = service.getServiceDirectory().getAbsolutePath();
         decReq.content = encReq.content;
         Envelope e2 = Envelope.documentFactory();
-        DLC.addData(EncryptRequest.class, encReq, e2);
-        DLC.addRoute(KeyRingService.class.getName(), KeyRingService.OPERATION_ENCRYPT, e2);
+        DLC.addData(DecryptRequest.class, decReq, e2);
+        DLC.addRoute(KeyRingService.class.getName(), KeyRingService.OPERATION_DECRYPT, e2);
         // Ratchet Route
         e2.setRoute(e2.getDynamicRoutingSlip().nextRoute());
         start = new Date().getTime();

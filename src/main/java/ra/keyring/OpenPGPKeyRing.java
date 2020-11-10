@@ -289,21 +289,28 @@ public class OpenPGPKeyRing implements KeyRing {
         //
         // find the secret key
         //
-        Iterator<PGPPublicKeyEncryptedData> it = enc.getEncryptedDataObjects();
+        Iterator<PGPEncryptedData> it = enc.getEncryptedDataObjects();
         PGPPrivateKey privKey = null;
-        PGPPublicKeyEncryptedData pbe = null;
+        PGPEncryptedData pbe = null;
+        PGPPublicKeyEncryptedData pked = null;
         PGPSecretKeyRingCollection pgpSec = getSecretKeyRingCollection(r.location, r.keyRingUsername, r.keyRingPassphrase);
         while (privKey == null && it.hasNext()) {
             pbe = it.next();
-            privKey = getPrivateKey(pgpSec, pbe.getKeyID(), r.keyRingPassphrase.toCharArray());
+            if(pbe instanceof PGPPublicKeyEncryptedData) {
+                pked = (PGPPublicKeyEncryptedData)pbe;
+                privKey = getPrivateKey(pgpSec, pked.getKeyID(), r.keyRingPassphrase.toCharArray());
+            }
         }
-
+        if(privKey==null || pked==null) {
+            LOG.warning("Unable to find private key. Aborting decryption.");
+            return;
+        }
         PublicKeyDataDecryptorFactory b = new JcePublicKeyDataDecryptorFactoryBuilder()
                 .setProvider(PROVIDER_BOUNCY_CASTLE)
                 .setContentProvider(PROVIDER_BOUNCY_CASTLE)
                 .build(privKey);
 
-        InputStream clear = pbe.getDataStream(b);
+        InputStream clear = pked.getDataStream(b);
 
         PGPObjectFactory plainFact = new PGPObjectFactory(clear,new BcKeyFingerprintCalculator());
 
