@@ -12,7 +12,7 @@ import ra.common.messaging.MessageProducer;
 import ra.common.route.Route;
 import ra.common.service.BaseService;
 import ra.common.service.ServiceStatus;
-import ra.common.service.ServiceStatusListener;
+import ra.common.service.ServiceStatusObserver;
 import ra.util.SystemVersion;
 
 import javax.crypto.*;
@@ -67,8 +67,8 @@ public class KeyRingService extends BaseService {
 
     private Map<String, KeyRing> keyRings = new HashMap<>();
 
-    public KeyRingService(MessageProducer producer, ServiceStatusListener serviceStatusListener) {
-        super(producer, serviceStatusListener);
+    public KeyRingService(MessageProducer producer, ServiceStatusObserver observer) {
+        super(producer, observer);
     }
 
     @Override
