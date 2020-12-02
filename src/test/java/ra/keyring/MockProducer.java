@@ -21,4 +21,9 @@ public class MockProducer implements MessageProducer {
         LOG.info("Env sent, client waiting...");
         return true;
     }
+
+    @Override
+    public boolean deadLetter(Envelope envelope) {
+        return false;
+    }
 }
