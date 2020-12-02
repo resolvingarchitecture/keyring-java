@@ -24,6 +24,7 @@ public class MockProducer implements MessageProducer {
 
     @Override
     public boolean deadLetter(Envelope envelope) {
-        return false;
+        LOG.info("Dead letter envelope: "+envelope.toJSON());
+        return true;
     }
 }
