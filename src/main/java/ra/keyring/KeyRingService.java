@@ -67,6 +67,8 @@ public class KeyRingService extends BaseService {
 
     private Map<String, KeyRing> keyRings = new HashMap<>();
 
+    public KeyRingService() {}
+
     public KeyRingService(MessageProducer producer, ServiceStatusObserver observer) {
         super(producer, observer);
     }
