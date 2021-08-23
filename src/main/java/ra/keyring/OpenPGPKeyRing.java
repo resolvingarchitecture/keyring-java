@@ -14,7 +14,7 @@ import org.bouncycastle.openpgp.operator.bc.*;
 import org.bouncycastle.openpgp.operator.jcajce.*;
 import ra.common.crypto.EncryptionAlgorithm;
 import ra.common.identity.PublicKey;
-import ra.util.Base58;
+import ra.common.Base58;
 
 import java.io.*;
 import java.math.BigInteger;

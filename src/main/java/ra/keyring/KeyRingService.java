@@ -13,7 +13,7 @@ import ra.common.route.Route;
 import ra.common.service.BaseService;
 import ra.common.service.ServiceStatus;
 import ra.common.service.ServiceStatusObserver;
-import ra.util.SystemVersion;
+import ra.common.SystemVersion;
 
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
