@@ -27,9 +27,6 @@ As of 0.5.2, it is only supporting:
 #### Shamir Secret Sharing
 https://en.wikipedia.org/wiki/Shamir's_Secret_Sharing
 
-##### Purism
-https://docs.puri.sm/Librem_Key.html
-
 ## TODO
 * Key Revocation
 * Support Android 8 Password Manager
