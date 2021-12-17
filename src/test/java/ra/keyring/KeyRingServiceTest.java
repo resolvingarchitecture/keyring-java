@@ -46,12 +46,13 @@ public class KeyRingServiceTest {
     }
 
     @Test
+    @Order(1)
     public void verifyInitializedTest() {
         assertTrue(serviceRunning);
     }
 
     @Test
-    @Order(1)
+    @Order(2)
     public void generateKeyRingsCollectionTest() {
         GenerateKeyRingCollectionsRequest req = new GenerateKeyRingCollectionsRequest();
         req.keyRingImplementation = keyRingImplementation;
@@ -81,7 +82,7 @@ public class KeyRingServiceTest {
     }
 
     @Test
-    @Order(2)
+    @Order(3)
     public void generateKeyRingsTest() {
         GenerateKeyRingsRequest req = new GenerateKeyRingsRequest();
         req.keyRingImplementation = keyRingImplementation;
@@ -112,7 +113,7 @@ public class KeyRingServiceTest {
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     public void authenticationTest() {
         AuthNRequest req = new AuthNRequest();
         req.keyRingUsername = keyRingUsername;
@@ -144,7 +145,7 @@ public class KeyRingServiceTest {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     public void encryptionTest() {
         EncryptRequest encReq = new EncryptRequest();
         encReq.keyRingUsername = keyRingUsername;
@@ -184,6 +185,15 @@ public class KeyRingServiceTest {
         LOG.info("Decryption took: "+(end-start)+" ms.");
         assertEquals(new String(decReq.content.getBody()), content);
         assertTrue((end-start) < 30000); // < 30 seconds
+    }
+
+    @Test
+    @Order(6)
+    public void yubiKeyFindTest() {
+        Properties p = new Properties();
+        YubiKeyRing ring = new YubiKeyRing();
+        ring.init(p);
+
     }
 
 }
