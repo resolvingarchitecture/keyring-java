@@ -636,7 +636,8 @@ public class OpenPGPKeyRing implements KeyRing {
     }
 
     @Override
-    public void init(Properties properties) {
+    public boolean init(Properties properties) {
         this.properties = properties;
+        return true;
     }
 }

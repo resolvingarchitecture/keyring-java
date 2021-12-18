@@ -4,7 +4,6 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
-import ra.common.DLC;
 import ra.common.Envelope;
 import ra.common.crypto.EncryptionAlgorithm;
 import ra.common.identity.PublicKey;
@@ -80,12 +79,12 @@ public class KeyRingService extends BaseService {
         switch (route.getOperation()) {
             case OPERATION_GENERATE_KEY_RINGS_COLLECTIONS: {
                 LOG.info("Generate Key Rings Collections request received.");
-                GenerateKeyRingCollectionsRequest r = (GenerateKeyRingCollectionsRequest) DLC.getData(GenerateKeyRingCollectionsRequest.class,e);
+                GenerateKeyRingCollectionsRequest r = (GenerateKeyRingCollectionsRequest) e.getData(GenerateKeyRingCollectionsRequest.class);
                 if(r == null) {
                     LOG.warning("GenerateKeyRingCollectionsRequest required.");
                     r = new GenerateKeyRingCollectionsRequest();
                     r.statusCode = GenerateKeyRingCollectionsRequest.REQUEST_REQUIRED;
-                    DLC.addData(GenerateKeyRingCollectionsRequest.class, r, e);
+                    e.addData(GenerateKeyRingCollectionsRequest.class, r);
                     break;
                 }
                 File f;
@@ -130,11 +129,11 @@ public class KeyRingService extends BaseService {
                 break;
             }
             case OPERATION_AUTHN: {
-                AuthNRequest r = (AuthNRequest)DLC.getData(AuthNRequest.class,e);
+                AuthNRequest r = (AuthNRequest)e.getData(AuthNRequest.class);
                 if(r==null) {
                     r = new AuthNRequest();
                     r.statusCode = AuthNRequest.REQUEST_REQUIRED;
-                    DLC.addData(AuthNRequest.class, r, e);
+                    e.addData(AuthNRequest.class, r);
                     break;
                 }
                 File f;
@@ -229,7 +228,7 @@ public class KeyRingService extends BaseService {
                 break;
             }
             case OPERATION_GENERATE_KEY_RINGS: {
-                GenerateKeyRingsRequest r = (GenerateKeyRingsRequest)DLC.getData(GenerateKeyRingsRequest.class,e);
+                GenerateKeyRingsRequest r = (GenerateKeyRingsRequest)e.getData(GenerateKeyRingsRequest.class);
                 if(r == null) {
                     r = new GenerateKeyRingsRequest();
                     r.statusCode = GenerateKeyRingsRequest.REQUEST_REQUIRED;
@@ -279,11 +278,11 @@ public class KeyRingService extends BaseService {
                 break;
             }
             case OPERATION_ENCRYPT: {
-                EncryptRequest r = (EncryptRequest)DLC.getData(EncryptRequest.class, e);
+                EncryptRequest r = (EncryptRequest)e.getData(EncryptRequest.class);
                 if(r == null) {
                     r = new EncryptRequest();
                     r.statusCode = EncryptRequest.REQUEST_REQUIRED;
-                    DLC.addData(EncryptRequest.class, r, e);
+                    e.addData(EncryptRequest.class, r);
                     break;
                 }
                 if(r.location == null) {
@@ -317,11 +316,11 @@ public class KeyRingService extends BaseService {
                 break;
             }
             case OPERATION_DECRYPT: {
-                DecryptRequest r = (DecryptRequest)DLC.getData(DecryptRequest.class, e);
+                DecryptRequest r = (DecryptRequest)e.getData(DecryptRequest.class);
                 if(r == null) {
                     r = new DecryptRequest();
                     r.statusCode = DecryptRequest.REQUEST_REQUIRED;
-                    DLC.addData(DecryptRequest.class, r, e);
+                    e.addData(DecryptRequest.class, r);
                     break;
                 }
                 if(r.location == null) {
@@ -347,11 +346,11 @@ public class KeyRingService extends BaseService {
                 break;
             }
             case OPERATION_SIGN: {
-                SignRequest r = (SignRequest)DLC.getData(SignRequest.class, e);
+                SignRequest r = (SignRequest)e.getData(SignRequest.class);
                 if(r == null) {
                     r = new SignRequest();
                     r.statusCode = SignRequest.REQUEST_REQUIRED;
-                    DLC.addData(SignRequest.class, r, e);
+                    e.addData(SignRequest.class, r);
                     break;
                 }
                 if(r.location == null) {
@@ -377,11 +376,11 @@ public class KeyRingService extends BaseService {
                 break;
             }
             case OPERATION_VERIFY_SIGNATURE: {
-                VerifySignatureRequest r = (VerifySignatureRequest)DLC.getData(VerifySignatureRequest.class,e);
+                VerifySignatureRequest r = (VerifySignatureRequest)e.getData(VerifySignatureRequest.class);
                 if(r == null) {
                     r = new VerifySignatureRequest();
                     r.statusCode = VerifySignatureRequest.REQUEST_REQUIRED;
-                    DLC.addData(VerifySignatureRequest.class, r, e);
+                    e.addData(VerifySignatureRequest.class, r);
                     break;
                 }
                 if(r.location == null) {
@@ -407,11 +406,11 @@ public class KeyRingService extends BaseService {
                 break;
             }
             case OPERATION_ENCRYPT_SYMMETRIC: {
-                EncryptSymmetricRequest r = (EncryptSymmetricRequest)DLC.getData(EncryptSymmetricRequest.class,e);
+                EncryptSymmetricRequest r = (EncryptSymmetricRequest)e.getData(EncryptSymmetricRequest.class);
                 if(r==null) {
                     r = new EncryptSymmetricRequest();
                     r.statusCode = EncryptSymmetricRequest.REQUEST_REQUIRED;
-                    DLC.addData(EncryptSymmetricRequest.class, r, e);
+                    e.addData(EncryptSymmetricRequest.class, r);
                     break;
                 }
                 if(r.content == null || r.content.getBody() == null || r.content.getBody().length == 0) {
@@ -460,10 +459,10 @@ public class KeyRingService extends BaseService {
                 break;
             }
             case OPERATION_DECRYPT_SYMMETRIC: {
-                DecryptSymmetricRequest r = (DecryptSymmetricRequest)DLC.getData(DecryptSymmetricRequest.class,e);
+                DecryptSymmetricRequest r = (DecryptSymmetricRequest)e.getData(DecryptSymmetricRequest.class);
                 if(r==null) {
                     r = new DecryptSymmetricRequest();
-                    DLC.addData(DecryptSymmetricRequest.class, r, e);
+                    e.addData(DecryptSymmetricRequest.class, r);
                     r.statusCode = DecryptSymmetricRequest.REQUEST_REQUIRED;
                     break;
                 }
@@ -517,7 +516,7 @@ public class KeyRingService extends BaseService {
                 break;
             }
             case OPERATION_VOUCH: {
-                VouchRequest r = (VouchRequest)DLC.getData(VouchRequest.class,e);
+                VouchRequest r = (VouchRequest)e.getData(VouchRequest.class);
                 if(r.signer==null) {
                     r.statusCode = VouchRequest.SIGNER_REQUIRED;
                     break;
@@ -543,17 +542,17 @@ public class KeyRingService extends BaseService {
     private void loadKeyRingImplementations(){
         keyRings.clear();
         KeyRing keyRing;
-        if(properties.getProperty("ra.keyring.KeyRing") == null) {
+        if(properties.getProperty("ra.keyring.KeyRings") == null) {
             keyRing = new OpenPGPKeyRing(); // Default
-            keyRing.init(properties);
-            keyRings.put(OpenPGPKeyRing.class.getName(), keyRing);
+            if(keyRing.init(properties))
+                keyRings.put(OpenPGPKeyRing.class.getName(), keyRing);
         } else {
-            String[] keyRingStrings = properties.getProperty("ra.keyring.KeyRing").split(",");
+            String[] keyRingStrings = properties.getProperty("ra.keyring.KeyRings").split(",");
             for (String keyRingString : keyRingStrings) {
                 try {
                     keyRing = (KeyRing) Class.forName(keyRingString).getConstructor().newInstance();
-                    keyRing.init(properties);
-                    keyRings.put(keyRingString, keyRing);
+                    if(keyRing.init(properties))
+                        keyRings.put(keyRingString, keyRing);
                 } catch (Exception e) {
                     LOG.warning(e.getLocalizedMessage());
                 }

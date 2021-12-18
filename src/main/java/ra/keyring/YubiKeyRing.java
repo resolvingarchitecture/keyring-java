@@ -23,19 +23,19 @@ public class YubiKeyRing implements KeyRing {
     private boolean initialized = false;
 
     @Override
-    public void init(Properties properties) {
+    public boolean init(Properties properties) {
         // Initialize the libusb context
         int result = LibUsb.init(null);
         if (result != LibUsb.SUCCESS){
             LOG.warning("Unable to initialize libusb. Error code: "+result);
-            return;
+            return initialized;
         }
 
         // Search for the missile launcher USB device and stop when not found
         Device device = findYubikey(PRODUCT_ID_NEO);
         if (device == null){
             LOG.info("Yubikey not found.");
-            return;
+            return initialized;
         }
 
         // Open the device
@@ -43,8 +43,12 @@ public class YubiKeyRing implements KeyRing {
         result = LibUsb.open(device, handle);
         if (result != LibUsb.SUCCESS) {
             LOG.warning("Unable to initialize libusb. Error code: "+result);
-            return;
+            return initialized;
         }
+
+        // TODO: Continue initialization
+
+        return initialized;
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.util.Properties;
  */
 public interface KeyRing {
 
-    void init(Properties properties);
+    boolean init(Properties properties);
 
     void generateKeyRingCollections(GenerateKeyRingCollectionsRequest r) throws IOException, PGPException;
 
